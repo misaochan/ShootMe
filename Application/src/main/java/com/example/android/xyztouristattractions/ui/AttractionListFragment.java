@@ -47,8 +47,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.example.android.xyztouristattractions.provider.TouristAttractions.ATTRACTIONS;
-
 /**
  * The main tourist attraction fragment which contains a list of attractions
  * sorted by distance (contained inside
@@ -112,9 +110,9 @@ public class AttractionListFragment extends Fragment {
     };
 
     private static List<Attraction> loadAttractionsFromLocation(final LatLng curLatLng) {
-        String closestCity = TouristAttractions.getClosestCity(curLatLng);
-        if (closestCity != null) {
-            List<Attraction> attractions = ATTRACTIONS.get(closestCity);
+        //String closestCity = TouristAttractions.getClosestCity(curLatLng);
+        //if (closestCity != null) {
+            List<Attraction> attractions = TouristAttractions.get();
             if (curLatLng != null) {
                 Collections.sort(attractions,
                         new Comparator<Attraction>() {
@@ -130,8 +128,8 @@ public class AttractionListFragment extends Fragment {
                 );
             }
             return attractions;
-        }
-        return null;
+        //}
+        //return null;
     }
 
     private class AttractionAdapter extends RecyclerView.Adapter<ViewHolder>

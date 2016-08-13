@@ -59,7 +59,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.android.xyztouristattractions.provider.TouristAttractions.ATTRACTIONS;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 import static com.google.android.gms.location.LocationServices.GeofencingApi;
 
@@ -315,7 +314,7 @@ public class UtilityService extends IntentService {
      */
     private void showNotification(String cityId, boolean microApp) {
 
-        List<Attraction> attractions = ATTRACTIONS.get(cityId);
+        List<Attraction> attractions = TouristAttractions.get();
 
         if (microApp) {
             // If micro app we first need to transfer some data over

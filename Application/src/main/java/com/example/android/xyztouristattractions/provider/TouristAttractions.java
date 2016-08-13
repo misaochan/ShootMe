@@ -17,12 +17,19 @@
 package com.example.android.xyztouristattractions.provider;
 
 import android.net.Uri;
+import android.os.StrictMode;
 
 import com.example.android.xyztouristattractions.common.Attraction;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,20 +53,80 @@ public class TouristAttractions {
         put(CITY_SYDNEY, new LatLng(-33.873651, 151.2068896));
     }};
 
+    static List<Attraction> attractions = null;
+
+    public static synchronized List<Attraction> get() {
+        if(attractions != null) {
+            return attractions;
+        }
+        else {
+            try {
+                attractions = new ArrayList<Attraction>();
+                // TODO Load in a different thread and show wait dialog
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+
+                URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(file.openStream()));
+
+                String line;
+                while ((line = in.readLine()) != null) {
+                    System.out.println(line);
+                    String[] fields = line.split(",");
+                    String name = fields[0];
+                    double latitude = Double.parseDouble(fields[1]);
+                    double longitude = Double.parseDouble(fields[2]);
+                    String type = fields[3];
+                    String image;
+
+                    switch(type) {
+                        case "event":
+                            image = "https://upload.wikimedia.org/wikipedia/commons/c/ca/Anarchist_attack_on_the_King_of_Spain_Alfonso_XIII_%281906%29.jpg";
+                            break;
+                        case "edu":
+                            image = "https://upload.wikimedia.org/wikipedia/commons/d/d4/Vrt%2C_pogled_na_glavni_ulaz.JPG";
+                            break;
+                        case "landmark":
+                            image = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/20150902GrenspaalElst_03.JPG/767px-20150902GrenspaalElst_03.JPG";
+                            break;
+                        default:
+                            image = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Point_d_interrogation.jpg/120px-Point_d_interrogation.jpg";
+                    }
+
+                    attractions.add(new Attraction(
+                            name,
+                            type, // list
+                            type, // details
+                            Uri.parse(image),
+                            null,
+                            new LatLng(latitude, longitude),
+                            CITY_SYDNEY
+                    ));
+                }
+                in.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return attractions;
+    }
+
     /**
      * All photos used with permission under the Creative Commons Attribution-ShareAlike License.
      */
-    public static final HashMap<String, List<Attraction>> ATTRACTIONS =
+    /*public static final HashMap<String, List<Attraction>> ATTRACTIONS =
             new HashMap<String, List<Attraction>>() {{
 
         put(CITY_SYDNEY, new ArrayList<Attraction>() {{
             add(new Attraction(
-                    "Sydney Opera House",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae bibendum justo, vitae cursus velit. Suspendisse potenti.",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae bibendum justo, vitae cursus velit. Suspendisse potenti. Suspendisse scelerisque risus justo, non tincidunt nibh blandit et. Vivamus elit lacus, luctus nec erat in, pharetra semper turpis. Quisque viverra nulla ligula, non pulvinar ante dictum sit amet. Vestibulum aliquet tortor mauris, vel suscipit nisl malesuada eget. Aliquam maximus dictum euismod. Maecenas leo quam, volutpat id diam eget, placerat fringilla ipsum. Nam pretium vehicula augue quis euismod.\n\nNam sed blandit magna. Vestibulum a fermentum arcu. Vestibulum et ligula at nisi luctus facilisis. Proin fermentum enim a nibh commodo finibus. Suspendisse justo elit, vulputate ut ipsum at, pellentesque auctor massa. Praesent vestibulum erat interdum imperdiet dapibus. In hac habitasse platea dictumst. Proin varius orci vitae tempor vulputate.\n\nEtiam sed mollis orci. Integer et ex sed tortor scelerisque blandit semper id libero. Nulla facilisi. Pellentesque tempor magna eget massa ultrices, et efficitur lectus finibus.",
-                    Uri.parse("https://lh5.googleusercontent.com/-7fb5ybQhUbo/VGLWjIL4RmI/AAAAAAAAACM/2jLe_msj_tk/w600-no/IMG_0049.JPG"),
-                    Uri.parse("https://lh3.googleusercontent.com/-EFEw6s7mT6I/VGLkCH4Xt4I/AAAAAAAAADY/ZlznhaQvb8E/w600-no/DSC_2775.JPG"),
-                    new LatLng(-33.858667, 151.214028),
+                    "軽井沢スキーバス転落事故",
+                    "event", // list
+                    "event", // details
+                    Uri.parse("https://upload.wikimedia.org/wikipedia/commons/c/ca/Anarchist_attack_on_the_King_of_Spain_Alfonso_XIII_%281906%29.jpg"),
+                    null,
+                    new LatLng(36.32686111, 138.64547222),
                     CITY_SYDNEY
             ));
 
@@ -104,7 +171,7 @@ public class TouristAttractions {
             ));
         }});
 
-    }};
+    }};*/
 
     /**
      * Creates a list of geofences based on the city locations

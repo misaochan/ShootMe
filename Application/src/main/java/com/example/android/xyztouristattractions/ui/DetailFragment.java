@@ -38,12 +38,11 @@ import com.example.android.xyztouristattractions.R;
 import com.example.android.xyztouristattractions.common.Attraction;
 import com.example.android.xyztouristattractions.common.Constants;
 import com.example.android.xyztouristattractions.common.Utils;
+import com.example.android.xyztouristattractions.provider.TouristAttractions;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.example.android.xyztouristattractions.provider.TouristAttractions.ATTRACTIONS;
 
 /**
  * The tourist attraction detail fragment which contains the details of a
@@ -153,14 +152,14 @@ public class DetailFragment extends Fragment {
      * Obviously would not be used in a production app.
      */
     private Attraction findAttraction(String attractionName) {
-        for (Map.Entry<String, List<Attraction>> attractionsList : ATTRACTIONS.entrySet()) {
-            List<Attraction> attractions = attractionsList.getValue();
-            for (Attraction attraction : attractions) {
+        //for (Map.Entry<String, List<Attraction>> attractionsList : TouristAttractions.get().entrySet()) {
+            //List<Attraction> attractions = attractionsList.getValue();
+            for (Attraction attraction : TouristAttractions.get()) {
                 if (attractionName.equals(attraction.name)) {
                     return attraction;
                 }
             }
-        }
+        //}
         return null;
     }
 }
