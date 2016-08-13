@@ -1,6 +1,14 @@
+Shows nearby requested pictures.
 
-Android XYZTouristAttractions Sample
-===================================
+The data is a sample in the format used by https://github.com/alemela/wiki-needs-pictures
+
+This is a proof of concept.
+
+
+Source code
+-----------
+
+Forked from the Android XYZTouristAttractions Sample.
 
 This sample aims to be as close to a real world example of a mobile
 and Wear app combination as possible. It has a more refined design
