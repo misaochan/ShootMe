@@ -66,7 +66,10 @@ public class TouristAttractions {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
-                URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
+
+                //URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
+                URL file = new URL("https://tools.wmflabs.org/wiki-needs-pictures/data/data.csv");
+                
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(file.openStream()));
 
@@ -75,8 +78,20 @@ public class TouristAttractions {
                     System.out.println(line);
                     String[] fields = line.split(",");
                     String name = fields[0];
-                    double latitude = Double.parseDouble(fields[1]);
-                    double longitude = Double.parseDouble(fields[2]);
+
+                    double latitude;
+                    double longitude;
+                    try {
+                        latitude = Double.parseDouble(fields[1]);
+                    } catch (NumberFormatException e) {
+                        latitude = 0;
+                    }
+                    try {
+                        longitude = Double.parseDouble(fields[2]);
+                    } catch (NumberFormatException e) {
+                        longitude = 0;
+                    }
+
                     String type = fields[3];
                     String image;
 
