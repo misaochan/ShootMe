@@ -166,9 +166,6 @@ public class UtilityService extends IntentService {
         if (connectionResult.isSuccess() && googleApiClient.isConnected()) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     this, 0, new Intent(this, UtilityReceiver.class), 0);
-            GeofencingApi.addGeofences(googleApiClient,
-                    TouristAttractions.getGeofenceList(), pendingIntent);
-            googleApiClient.disconnect();
         } else {
             Log.e(TAG, String.format(Constants.GOOGLE_API_CLIENT_ERROR_MSG,
                     connectionResult.getErrorCode()));
@@ -367,7 +364,6 @@ public class UtilityService extends IntentService {
                 .setSmallIcon(R.drawable.ic_stat_maps_pin_drop)
                 .setContentIntent(pendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setColor(getResources().getColor(R.color.colorPrimary, getTheme()))
                 .setCategory(Notification.CATEGORY_RECOMMENDATION)
                 .setAutoCancel(true);
 
