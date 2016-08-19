@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.StrictMode;
 
 import com.example.android.xyztouristattractions.common.Attraction;
-import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 
@@ -45,9 +44,7 @@ public class TouristAttractions {
     public static final String TEST_CITY = CITY_SYDNEY;
 
     private static final float TRIGGER_RADIUS = 2000; // 2KM
-    private static final int TRIGGER_TRANSITION = Geofence.GEOFENCE_TRANSITION_ENTER |
-            Geofence.GEOFENCE_TRANSITION_EXIT;
-    private static final long EXPIRATION_DURATION = Geofence.NEVER_EXPIRE;
+
 
     public static final Map<String, LatLng> CITY_LOCATIONS = new HashMap<String, LatLng>() {{
         put(CITY_SYDNEY, new LatLng(-33.873651, 151.2068896));
@@ -188,22 +185,6 @@ public class TouristAttractions {
 
     }};*/
 
-    /**
-     * Creates a list of geofences based on the city locations
-     */
-    public static List<Geofence> getGeofenceList() {
-        List<Geofence> geofenceList = new ArrayList<Geofence>();
-        for (String city : CITY_LOCATIONS.keySet()) {
-            LatLng cityLatLng = CITY_LOCATIONS.get(city);
-            geofenceList.add(new Geofence.Builder()
-                    .setCircularRegion(cityLatLng.latitude, cityLatLng.longitude, TRIGGER_RADIUS)
-                    .setRequestId(city)
-                    .setTransitionTypes(TRIGGER_TRANSITION)
-                    .setExpirationDuration(EXPIRATION_DURATION)
-                    .build());
-        }
-        return geofenceList;
-    }
 
     public static String getClosestCity(LatLng curLatLng) {
         if (curLatLng == null) {
