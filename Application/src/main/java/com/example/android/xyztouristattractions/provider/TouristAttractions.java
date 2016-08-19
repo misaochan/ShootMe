@@ -66,12 +66,21 @@ public class TouristAttractions {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
-                URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
+                //URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
+                URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-japan.csv");
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(file.openStream()));
 
+                boolean firstLine = true;
                 String line;
                 while ((line = in.readLine()) != null) {
+
+                    // Skip CSV header.
+                    if (firstLine) {
+                        firstLine = false;
+                        continue;
+                    }
+
                     System.out.println(line);
                     String[] fields = line.split(",");
                     String name = fields[0];
