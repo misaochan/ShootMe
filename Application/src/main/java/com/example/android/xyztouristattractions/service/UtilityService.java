@@ -166,9 +166,6 @@ public class UtilityService extends IntentService {
         if (connectionResult.isSuccess() && googleApiClient.isConnected()) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     this, 0, new Intent(this, UtilityReceiver.class), 0);
-            GeofencingApi.addGeofences(googleApiClient,
-                    TouristAttractions.getGeofenceList(), pendingIntent);
-            googleApiClient.disconnect();
         } else {
             Log.e(TAG, String.format(Constants.GOOGLE_API_CLIENT_ERROR_MSG,
                     connectionResult.getErrorCode()));
@@ -329,7 +326,7 @@ public class UtilityService extends IntentService {
                 Constants.MAX_ATTRACTIONS : attractions.size();
 
         // Pull down the tourist attraction images from the network and store
-        HashMap<String, Bitmap> bitmaps = new HashMap<>();
+        /*HashMap<String, Bitmap> bitmaps = new HashMap<>();
         try {
             for (int i = 0; i < count; i++) {
                 bitmaps.put(attractions.get(i).name,
@@ -342,7 +339,7 @@ public class UtilityService extends IntentService {
             }
         } catch (InterruptedException | ExecutionException e) {
             Log.e(TAG, "Error fetching image from network: " + e);
-        }
+        }*/
 
         // The intent to trigger when the notification is tapped
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
@@ -357,7 +354,7 @@ public class UtilityService extends IntentService {
         // Construct the main notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                                .bigPicture(bitmaps.get(attraction.name))
+                                // TODO .bigPicture(bitmaps.get(attraction.name))
                                 .setBigContentTitle(attraction.name)
                                 .setSummaryText(getString(R.string.nearby_attraction))
                 )
@@ -367,7 +364,6 @@ public class UtilityService extends IntentService {
                 .setSmallIcon(R.drawable.ic_stat_maps_pin_drop)
                 .setContentIntent(pendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setColor(getResources().getColor(R.color.colorPrimary, getTheme()))
                 .setCategory(Notification.CATEGORY_RECOMMENDATION)
                 .setAutoCancel(true);
 
@@ -387,7 +383,7 @@ public class UtilityService extends IntentService {
                         .setContentText(distance)
                         .setSmallIcon(R.drawable.ic_stat_maps_pin_drop)
                         .extend(new NotificationCompat.WearableExtender()
-                                .setBackground(bitmaps.get(attractions.get(i).name))
+                                // TODO .setBackground(bitmaps.get(attractions.get(i).name))
                         )
                         .build());
             }
