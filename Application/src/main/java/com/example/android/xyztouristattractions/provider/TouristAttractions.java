@@ -69,7 +69,7 @@ public class TouristAttractions {
 
                 //URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
                 URL file = new URL("https://tools.wmflabs.org/wiki-needs-pictures/data/data.csv");
-                
+
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(file.openStream()));
 
