@@ -63,15 +63,8 @@ public class TouristAttractions {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
-<<<<<<< HEAD
-
-                //URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
                 URL file = new URL("https://tools.wmflabs.org/wiki-needs-pictures/data/data.csv");
 
-=======
-                //URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-test.csv");
-                URL file = new URL("http://nicolas.raoul.free.fr/lab/wikishootme-japan.csv");
->>>>>>> refs/remotes/commons-app/master
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(file.openStream()));
 
